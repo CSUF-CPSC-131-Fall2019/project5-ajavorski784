@@ -7,7 +7,6 @@ using std::string;
 class WordFrequency {
 private:
   std::unordered_map<string, int> frequencyTable;
-  int numWords;
 
 public:
   WordFrequency();                     // default constructor

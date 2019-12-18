@@ -2,48 +2,46 @@
 #include "sanitize.h"
 #include <algorithm>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 
 WordFrequency::WordFrequency() { numWords = 0; } // default constructor
 void WordFrequency::readIn(const string &filename) {
   std::ifstream file(filename);
+  std::string line;
   std::string currentWord; // Word holder for placing into hash table
-  int total = 0;
 
   while (!file.eof()) {
-    getline(file, currentWord, ' ');
-    // total++;
-    sanitize(currentWord);
-    currentWord.erase(std::remove(currentWord.begin(), currentWord.end(), '\n'),
-                      currentWord.end());
-    for (int i = 0, length = currentWord.size(); i < length; i++) {
+    getline(file, line);
+    line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+    for (int i = 0, length = line.size(); i < length; i++) {
       // check whether character is end characters or punctuation
-      if (std::ispunct(currentWord[i])) {
-        currentWord.erase(i--, 1);
-        length = currentWord.size();
+      if (std::ispunct(line[i])) {
+        line.replace(i--, 1, 1, ' ');
       }
     }
-    if (frequencyTable.find(currentWord) == frequencyTable.end()) {
-      frequencyTable[currentWord] = 1;
-      numWords++;
-    } else {
-      frequencyTable[currentWord] += 1;
+    std::stringstream currentLine(line);
+    while (!currentLine.eof()) {
+      getline(currentLine, currentWord, ' ');
+      if (currentWord == "") {
+        continue;
+      } else {
+        // std::cout << currentWord << " ";
+        frequencyTable[currentWord]++;
+      }
     }
-    // frequencyTable[currentWord]++;
-    // std::cout << currentWord << std::endl;
+    // std::cout << std::endl;
   }
-  // std::cout << frequencyTable.bucket_count() << std::endl;
-  // std::cout << total << std::endl;
-  std::unordered_map<string, int>::iterator itr;
-  for (itr = frequencyTable.begin(); itr != frequencyTable.end(); itr++) {
-    if (itr->first == "Ichabod" || itr->first == "Ichabods") {
-      std::cout << "true " << itr->second << std::endl;
-    }
-  }
-
 } // add words from file to hash table
 size_t WordFrequency::numberOfWords() {
+  // std::cout << numWords << std::endl;
+  std::unordered_map<string, int>::iterator itr = frequencyTable.begin();
+  while (itr != frequencyTable.end()) {
+    numWords++;
+    // std::cout << ":-" << itr->first << "-: " << itr->second << std::endl;
+    itr++;
+  }
   return numWords;
 } // return the number of unique words
 size_t WordFrequency::wordCount(const string &word) {

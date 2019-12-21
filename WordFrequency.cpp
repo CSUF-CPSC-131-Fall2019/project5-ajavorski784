@@ -9,14 +9,15 @@
 WordFrequency::WordFrequency() {} // default constructor
 void WordFrequency::readIn(const string &filename) {
   std::ifstream file(filename);
-  std::string line;
+  std::string line; // variable to allow for reading a whole line in to process
   std::string currentWord; // Word holder for placing into hash table
 
   while (!file.eof()) {
-    getline(file, line);
+    getline(file, line); // Reads line in from text
     std::stringstream currentLine(line);
     while (!currentLine.eof()) {
-      getline(currentLine, currentWord, ' ');
+      getline(currentLine, currentWord, ' '); // Reads a word from the stream
+      // Removal of end punctuation characters
       currentWord.erase(
           std::remove(currentWord.begin(), currentWord.end(), '.'),
           currentWord.end());
@@ -26,11 +27,13 @@ void WordFrequency::readIn(const string &filename) {
       currentWord.erase(
           std::remove(currentWord.begin(), currentWord.end(), '!'),
           currentWord.end());
-      sanitize(currentWord);
-      if (currentWord == "") {
-        continue;
+
+      sanitize(currentWord); // Sanitizes un needed characters in string
+
+      if (currentWord == "") { // Just checks if any string is an empty string
+        continue;              // Don't put empty strings into Frequency table
       } else {
-        frequencyTable[currentWord]++;
+        frequencyTable[currentWord]++; // Add word to Frequency table
       }
     }
   }

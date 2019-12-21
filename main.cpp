@@ -59,8 +59,7 @@ int main() {
   assertEquals("wordCount: the", 865, SleepyHollow.wordCount("the"));
   assertEquals("mostFrequentWord: Sleep Hollow", "the",
                SleepyHollow.mostFrequentWord());
-  assertEquals("maxBucketSize: Sleep Hollow", 6,
-  SleepyHollow.maxBucketSize(),
+  assertEquals("maxBucketSize: Sleep Hollow", 6, SleepyHollow.maxBucketSize(),
                1);
 
   return 0;

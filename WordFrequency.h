@@ -6,7 +6,7 @@ using std::string;
 
 class WordFrequency {
 private:
-  std::unordered_map<string, int> frequencyTable;
+  std::unordered_map<string, int> frequencyTable; // Hash Table used
 
 public:
   WordFrequency();                     // default constructor
